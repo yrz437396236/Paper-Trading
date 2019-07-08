@@ -9,7 +9,7 @@ import pandas as pd
 from datetime import datetime
 
 # parameter
-auth_token = 'b2407b4b35df301601ad4fbb8c849f10c2ba1f21'
+auth_token = '****************************************'
 tickers = ['bp','rds-a']
 intra_freq = '1min'
 year='2018'
