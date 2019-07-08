@@ -11,7 +11,7 @@ from datetime import datetime
 # this file will create one year data from 2007 to 2018
 # parameter
 os.chdir('C:\\Users\\43739\\OneDrive\\us\\2019 spring\\paper trading')
-auth_token = 'b2407b4b35df301601ad4fbb8c849f10c2ba1f21'
+auth_token = '****************************************'
 tickers = ['bp','rds-a']
 # name in variable_name is of no importance, just to nominate some dataframe 
 variable_name=['BP','RDSA']
