@@ -10,4 +10,8 @@ For information about each version of the code you could read the log file for b
 # 9/4/2019
 release a new version for one-click analysis, see the all_in_one folder 
 
+# 9/7/2019
+add statistic report, some bug fixed, also this time if file exists 
+the program will not download it again(main files like'intra_bp_2018_1min.csv'
+##############################################################################
 
