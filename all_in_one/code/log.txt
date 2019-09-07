@@ -1,1 +1,10 @@
-please run the GUI file
+v10:
+basic function from previous download module and backtesting module
+##############################################################################
+v11:
+add log file for order history
+##############################################################################
+v12:
+add statistic report, some bug fixed, also this time if file exists 
+the program will not download it again(main files like'intra_bp_2018_1min.csv'
+##############################################################################
