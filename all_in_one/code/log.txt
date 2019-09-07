@@ -8,3 +8,4 @@ v12:
 add statistic report, some bug fixed, also this time if file exists 
 the program will not download it again(main files like'intra_bp_2018_1min.csv'
 ##############################################################################
+please run the GUI file
