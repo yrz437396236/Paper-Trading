@@ -17,4 +17,8 @@ the program will not download it again(main files like'intra_bp_2018_1min.csv'
 this update introduce a filter which can automatically delete the first half
 hour and the last half hour since there are more then usual abrupt market move there
 
+# 9/18/2019
+minor bug fixed&improvement
+
+
 
