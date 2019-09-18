@@ -10,6 +10,7 @@ from sklearn.linear_model import LinearRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
 from backtesting_filter_v13 import delete_abrupt_time
+from scipy.stats import kurtosis,norm
 
 def statistic(tickers,intra_freq,year):
     stock1_original=pd.read_csv('data\\intra_'+tickers[0]+'_'+year+'_'+intra_freq+'.csv',index_col=0)
@@ -42,10 +43,14 @@ def daily_std_plot(tickers,stock1_original,stock2_original,stock1_filtered,stock
     datelist_unique=sorted(list(set([x[0:10] for x in stock1_original.index.tolist()])))
     #same for two stocks since we pair the date when download and merge data
     std_dict={}
+    original_res_diff_yearly=[]
+    filtered_res_diff_yearly=[]
     for i in datelist_unique:           
-        original_res=stock2_original[stock2_original[0]==i]['close'].values*params['m']+params['b']-stock1_original[stock1_original[0]==i]['close'].values
-        filtered_res=stock2_filtered[stock2_filtered[0]==i]['close'].values*params['m']+params['b']-stock1_filtered[stock1_filtered[0]==i]['close'].values
-        std_dict[i]=[np.std(original_res)-np.std(filtered_res)]
+        original_res_daily=stock2_original[stock2_original[0]==i]['close'].values*params['m']+params['b']-stock1_original[stock1_original[0]==i]['close'].values
+        filtered_res_daily=stock2_filtered[stock2_filtered[0]==i]['close'].values*params['m']+params['b']-stock1_filtered[stock1_filtered[0]==i]['close'].values
+        original_res_diff_yearly=original_res_diff_yearly+np.diff(original_res_daily).tolist()
+        filtered_res_diff_yearly=filtered_res_diff_yearly+np.diff(filtered_res_daily).tolist()
+        std_dict[i]=[np.std(original_res_daily)-np.std(filtered_res_daily)] 
     daily_std=pd.DataFrame(std_dict).T
     daily_std.columns=['original-filtered']
     daily_std['date']=daily_std.index
@@ -63,6 +68,17 @@ def daily_std_plot(tickers,stock1_original,stock2_original,stock1_filtered,stock
     plt.yticks(fontsize=30)
     plt.savefig(tickers[0]+'_'+tickers[1]+'_Original minus filtered.png',dpi=1000)
     plt.close('all')
+    ########################################################################
+    sns.set(font_scale=2)
+    plt.rcParams['figure.figsize'] = (18.5, 18.5)
+    fig,axes=plt.subplots(2,1)
+    sns.distplot(original_res_diff_yearly,norm_hist=True, bins=200,fit=norm,ax=axes[0])
+    axes[0].set_title('Original(std : '+str(round(np.std(original_res_diff_yearly),5))+')',fontsize=30)
+    sns.distplot(filtered_res_diff_yearly,norm_hist=True, bins=200,fit=norm,ax=axes[1])
+    axes[1].set_title('Filtered(std : '+str(round(np.std(filtered_res_diff_yearly),5))+')',fontsize=30)
+    plt.suptitle('Residual diff histogram',fontsize=30)
+    plt.savefig(tickers[0]+'_'+tickers[1]+'_Residual diff histogram.png',dpi=1000)
+    plt.close('all')
     
 def res_hist_kernel_normal(tickers,res,params): 
     plt.rcParams['figure.figsize'] = (18.5, 10.5)
@@ -76,20 +92,21 @@ def res_hist_kernel_normal(tickers,res,params):
     plt.xlabel('value(in doller)',fontsize=30)
     plt.ylabel('frequency',fontsize=30)
     function=tickers[1]+'*'+str(round(float(params['m']),5))+'+'+str(round(float(params['b']),5))+'-'+tickers[0]
-    plt.title('Residuals histogram('+function+')',fontsize=30)
+    plt.title('Residual histogram('+function+')',fontsize=30)
     plt.legend(fontsize=30)     
     plt.xticks(fontsize=30)
     plt.yticks(fontsize=30)   
-    plt.savefig(tickers[0]+'_'+tickers[1]+'_Residuals histogram.png',dpi=1000)
+    plt.savefig(tickers[0]+'_'+tickers[1]+'_Residual histogram.png',dpi=1000)
     plt.close('all')
     
 def cor_plot(tickers,stock1_filtered,stock2_filtered,params):
+    sns.set(font_scale=1)
     plt.rcParams['figure.figsize'] = (18.5, 10.5)
     df_cor=pd.concat([stock1_filtered['close'],stock2_filtered['close']],axis=1)
     df_cor.columns=[tickers[0]+'_close',tickers[1]+'_close']  
     cor=df_cor.corr().iloc[1][0]
     sns.jointplot(x=tickers[0]+'_close', y=tickers[1]+'_close', data=df_cor, kind="reg",scatter_kws={"s": 1},line_kws={'color':'#00035b'})
-    plt.suptitle(tickers[0]+' '+tickers[1]+'Sscatter plot(corr: '+str(round(cor,2))+')')
+    plt.suptitle(tickers[0]+' '+tickers[1]+'Scatter plot(corr: '+str(round(cor,2))+')')
     plt.savefig(tickers[0]+'_'+tickers[1]+'_Scatter plot.png',dpi=1000)
     plt.close('all')
     
