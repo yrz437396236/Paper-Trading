@@ -47,5 +47,5 @@ def delete_abrupt_time(original):
     return cooked
 
 if __name__ == '__main__':
-    original=pd.read_csv('intra_bp_2018_1min.csv',index_col=0)
+    original=pd.read_csv('data//intra_aapl_2018_1min.csv',index_col=0)
     cooked=delete_abrupt_time(original)

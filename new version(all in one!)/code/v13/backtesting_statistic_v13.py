@@ -17,6 +17,8 @@ def statistic(tickers,intra_freq,year):
     stock2_original=pd.read_csv('data\\intra_'+tickers[1]+'_'+year+'_'+intra_freq+'.csv',index_col=0)
     stock1_filtered=delete_abrupt_time(stock1_original)
     stock2_filtered=delete_abrupt_time(stock2_original)
+    stock1_filtered.to_csv('data\\intra_'+tickers[0]+'_'+year+'_'+intra_freq+'_filtered.csv')
+    stock2_filtered.to_csv('data\\intra_'+tickers[1]+'_'+year+'_'+intra_freq+'_filtered.csv')
     close1=stock1_filtered['close'].values.reshape(-1, 1)
     close2=stock2_filtered['close'].values.reshape(-1, 1)
     reg=LinearRegression().fit(close2, close1)
