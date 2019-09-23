@@ -20,5 +20,9 @@ hour and the last half hour since there are more then usual abrupt market move t
 # 9/18/2019
 minor bug fixed&improvement
 
+# 9/23/2019
+bug fixed
+
+
 
 
