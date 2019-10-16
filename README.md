@@ -23,6 +23,7 @@ minor bug fixed&improvement
 # 9/23/2019
 bug fixed
 
-
+# 10/16/2019
+presentation on the way!
 
 
