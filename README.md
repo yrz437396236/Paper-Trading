@@ -1,5 +1,5 @@
 # Paper-Trading
-This project also give credit to joey Loss https://github.com/chicago-joe. 
+This project also give credit to Joey Loss https://github.com/chicago-joe. 
 
 My part of this project is for statistics test and backtesting, for live trading part you could view his pages
 
